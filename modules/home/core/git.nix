@@ -51,7 +51,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.git = {
       enable = true;
-      ignores = cfg.ignores;
+      inherit (cfg) ignores;
       signing = lib.mkIf cfg.signing.enable {
         key = cfg.signing.key;
         signByDefault = true;
