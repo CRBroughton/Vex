@@ -20,5 +20,13 @@
           stateVersion = "25.05";
         };
       };
+
+      homeConfigurations = {
+        test = vex.lib.mkUser {
+          inherit self;
+          user = "test";
+          stateVersion = "25.05";
+        };
+      };
     };
 }
