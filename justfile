@@ -24,6 +24,14 @@ vm-host host:
 check:
     nix flake check
 
+# Build the Vex Home activation package (proves mkUser evaluates/builds)
+test-home:
+    cd playground && nix build '.#homeConfigurations.test.activationPackage'
+
+# Build the VexOS system, evaluation only (proves mkHost evaluates)
+test-os:
+    cd playground && nix build '.#nixosConfigurations.test.config.system.build.toplevel' --dry-run
+
 # Format all Nix files
 fmt:
     nix shell nixpkgs#nixfmt --command find . -name '*.nix' -exec nixfmt {} +
@@ -54,6 +62,8 @@ ci:
     just lint
     just dead
     just check
+    just test-home
+    just test-os
 
 # Run all checks without modifying files (use in CI pipelines)
 ci-check:
@@ -61,6 +71,8 @@ ci-check:
     just lint-check
     just dead-check
     just check
+    just test-home
+    just test-os
 
 # Update flake inputs
 update:

@@ -13,5 +13,8 @@
   "editor.formatOnSave": true,
   "[nix]": {
     "editor.defaultFormatter": "jnoortheen.nix-ide"
-  }
+  },
+  "conventionalCommits.scopes": [
+    "CI/CD"
+  ]
 }
