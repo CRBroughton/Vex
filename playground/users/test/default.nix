@@ -6,4 +6,9 @@ _: {
   };
 
   vex.shell.enable = true;
+
+  vex.git = {
+    userName = "Test User";
+    userEmail = "test@example.com";
+  };
 }
