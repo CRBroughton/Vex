@@ -1,0 +1,71 @@
+# List available commands
+default:
+    @just --list
+
+# Build the test VM (via the playground, a real external consumer of vex)
+build-vm:
+    cd playground && nix build '.#nixosConfigurations.test.config.system.build.vm'
+
+# Run the test VM
+run-vm:
+    cd playground && ./result/bin/run-test-vm
+
+# Build and run the test VM
+vm:
+    just build-vm
+    just run-vm
+
+# Build a specific host VM in the playground
+vm-host host:
+    cd playground && nix build ".#nixosConfigurations.{{host}}.config.system.build.vm"
+    cd playground && ./result/bin/run-{{host}}-vm
+
+# Check flake for errors
+check:
+    nix flake check
+
+# Format all Nix files
+fmt:
+    nix shell nixpkgs#nixfmt --command find . -name '*.nix' -exec nixfmt {} +
+
+# Lint all Nix files, auto-fixing what statix can
+lint:
+    nix shell nixpkgs#statix --command statix fix .
+
+# Find and remove dead Nix code
+dead:
+    nix shell nixpkgs#deadnix --command deadnix --edit .
+
+# Verify formatting without writing changes (CI-safe)
+fmt-check:
+    nix shell nixpkgs#nixfmt --command find . -name '*.nix' -exec nixfmt --check {} +
+
+# Verify lint without writing changes (CI-safe)
+lint-check:
+    nix shell nixpkgs#statix --command statix check .
+
+# Verify no dead code without writing changes (CI-safe)
+dead-check:
+    nix shell nixpkgs#deadnix --command deadnix --fail .
+
+# Run all checks, auto-fixing along the way (local use)
+ci:
+    just fmt
+    just lint
+    just dead
+    just check
+
+# Run all checks without modifying files (use in CI pipelines)
+ci-check:
+    just fmt-check
+    just lint-check
+    just dead-check
+    just check
+
+# Update flake inputs
+update:
+    nix flake update
+
+# Show flake outputs
+show:
+    nix flake show
