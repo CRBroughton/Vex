@@ -6,8 +6,10 @@
 
 {
   user,
+  self ? null,
   system ? "x86_64-linux",
   stateVersion ? "25.05",
+  usersDir ? (if self == null then ../../users else self + "/users"),
   externalModules ? [ ],
 }:
 
@@ -17,9 +19,9 @@ inputs.home-manager.lib.homeManagerConfiguration {
     config.allowUnfree = true;
   };
   modules =
-    (optionalImportTree ../modules/home/core)
-    ++ [ ../users/${user} ]
-    ++ (optionalImportTree ../users/${user}/modules)
+    (optionalImportTree ../../modules/home/core)
+    ++ [ (usersDir + "/${user}") ]
+    ++ (optionalImportTree (usersDir + "/${user}/modules"))
     ++ [ { home.stateVersion = stateVersion; } ]
     ++ externalModules;
   extraSpecialArgs = {

@@ -26,7 +26,10 @@
       ...
     }@inputs:
     let
-      lib = import ./lib { inherit inputs import-tree; };
+      optionalImportTree = path: if builtins.pathExists path then [ (import-tree path) ] else [ ];
+
+      lib = import ./lib/home { inherit inputs import-tree optionalImportTree; };
+      osLib = import ./lib/os { inherit inputs import-tree optionalImportTree; };
     in
     flake-utils.lib.eachDefaultSystem (
       system:
@@ -38,6 +41,6 @@
       }
     )
     // {
-      inherit lib;
+      inherit lib osLib;
     };
 }

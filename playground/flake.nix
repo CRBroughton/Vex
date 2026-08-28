@@ -13,7 +13,7 @@
     { vex, self, ... }:
     {
       nixosConfigurations = {
-        test = vex.lib.mkHost {
+        test = vex.osLib.mkHost {
           inherit self;
           hostname = "test";
           users = [ "test" ];
