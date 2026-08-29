@@ -1,0 +1,27 @@
+# List available commands
+default:
+    @just --list
+
+# Install dependencies
+install:
+    ni
+
+# Run in development mode
+dev:
+    nr dev
+
+# Build for production
+build:
+    nr build
+
+# Run tests
+test:
+    nr test
+
+# Type check
+check:
+    nr tsc --noEmit
+
+# Lint
+lint:
+    nr eslint .

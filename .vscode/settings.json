@@ -16,6 +16,7 @@
   },
   "conventionalCommits.scopes": [
     "CI/CD",
-    "VexCore"
+    "VexCore",
+    "Templates"
   ]
 }
