@@ -1,5 +1,8 @@
 # Vex
 
+> [!CAUTION]
+> Vex is a work in progress. I'm building it slowly and publicly, expect rough edges, missing modules, and breaking changes.
+
 Vex is an opinionated declarative developer environment and NixOS distro. Opinionated by default, extensible by design.
 
 Vex comes in two flavours:
