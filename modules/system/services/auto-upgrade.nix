@@ -24,6 +24,12 @@ in
       description = "Whether to automatically reboot after kernel updates.";
     };
 
+    flags = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ];
+      description = "Extra flags to pass to nixos-rebuild during an automatic upgrade.";
+    };
+
     rebootWindow = {
       lower = lib.mkOption {
         type = lib.types.str;
@@ -43,7 +49,7 @@ in
       enable = true;
       inherit (cfg) flake;
       dates = cfg.schedule;
-      inherit (cfg) allowReboot;
+      inherit (cfg) allowReboot flags;
       rebootWindow = {
         lower = cfg.rebootWindow.lower;
         upper = cfg.rebootWindow.upper;

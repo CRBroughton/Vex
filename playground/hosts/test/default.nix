@@ -10,6 +10,12 @@
 
   networking.hostName = "test";
 
+  vex.autoUpgrade = {
+    enable = true;
+    flake = "github:acmecorp/acme-vex";
+    allowReboot = false;
+  };
+
   virtualisation = {
     diskSize = 8192;
     memorySize = 4096;
