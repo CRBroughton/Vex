@@ -13,25 +13,25 @@
     { vex, self, ... }:
     {
       nixosConfigurations = {
-        test = vex.osLib.mkHost {
+        demo = vex.osLib.mkHost {
           inherit self;
-          hostname = "test";
-          users = [ "test" ];
+          hostname = "demo";
+          users = [ "demo" ];
           stateVersion = "25.05";
         };
 
         iso = vex.osLib.mkHost {
           inherit self;
           hostname = "iso";
-          users = [ "test" ];
+          users = [ "demo" ];
           stateVersion = "25.05";
         };
       };
 
       homeConfigurations = {
-        test = vex.lib.mkUser {
+        demo = vex.lib.mkUser {
           inherit self;
-          user = "test";
+          user = "demo";
           stateVersion = "25.05";
         };
       };

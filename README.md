@@ -259,6 +259,12 @@ sudo nixos-rebuild switch --flake github:yourorg/your-config#my-machine
 
 This activates your Vex config live on the running (RAM-only) system. Reboot and it's gone, as if it never happened.
 
+Working example against this repo's playground (the `demo` host):
+
+```bash
+sudo nixos-rebuild switch --flake github:CRBroughton/vex?dir=playground#demo
+```
+
 ### Option 2: Build your own bootable Vex ISO
 
 This bakes your config directly into a bootable image, so it boots straight into it — no live-rebuild step needed. Still installs nothing; still boots from USB.

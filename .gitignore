@@ -3,6 +3,7 @@ result
 
 # devenv local state (devenv.lock is committed; this is per-machine build output)
 .devenv/
+.direnv/
 .pre-commit-config.yaml
 node_modules/
 pnpm-lock.yaml

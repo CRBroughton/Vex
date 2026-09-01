@@ -2,13 +2,13 @@
 default:
     @just --list
 
-# Build the test VM (via the playground, a real external consumer of vex)
+# Build the demo VM (via the playground, a real external consumer of vex)
 build-vm:
-    cd playground && nix build '.#nixosConfigurations.test.config.system.build.vm'
+    cd playground && nix build '.#nixosConfigurations.demo.config.system.build.vm'
 
-# Run the test VM
+# Run the demo VM
 run-vm:
-    cd playground && ./result/bin/run-test-vm
+    cd playground && ./result/bin/run-demo-vm
 
 # Build and run the test VM
 vm:
@@ -28,17 +28,29 @@ build-iso:
 run-iso:
     qemu-system-x86_64 -m 4096 -enable-kvm -cdrom playground/result/iso/vex.iso
 
+# Flash the built ISO to a USB device (DESTRUCTIVE - erases the target device)
+install-iso device:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    echo "WARNING: this will permanently erase all data on {{device}}."
+    read -rp "Type the device path again to confirm: " confirm
+    if [ "$confirm" != "{{device}}" ]; then
+        echo "Confirmation mismatch, aborting."
+        exit 1
+    fi
+    sudo dd if=playground/result/iso/vex.iso of="{{device}}" bs=4M status=progress conv=fsync
+
 # Check flake for errors
 check:
     nix flake check
 
 # Build the Vex Home activation package (proves mkUser evaluates/builds)
 test-home:
-    cd playground && nix build '.#homeConfigurations.test.activationPackage'
+    cd playground && nix build '.#homeConfigurations.demo.activationPackage'
 
 # Build the VexOS system, evaluation only (proves mkHost evaluates)
 test-os:
-    cd playground && nix build '.#nixosConfigurations.test.config.system.build.toplevel' --dry-run
+    cd playground && nix build '.#nixosConfigurations.demo.config.system.build.toplevel' --dry-run
 
 # Format all Nix files
 fmt:

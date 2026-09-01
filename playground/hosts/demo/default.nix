@@ -8,7 +8,7 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "test";
+  networking.hostName = "demo";
 
   vex.desktop.niri.enable = true;
 
