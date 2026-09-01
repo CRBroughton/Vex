@@ -254,15 +254,15 @@ Want to see Vex running on real hardware (real GPU, real EGL — no VM software-
 Boot the [official NixOS minimal ISO](https://nixos.org/download) from USB. It runs entirely from RAM — nothing is written to disk unless you deliberately partition/install. Once you have network in the live session:
 
 ```bash
-sudo nixos-rebuild switch --flake github:yourorg/your-config#my-machine
+sudo nixos-rebuild test --flake github:yourorg/your-config#my-machine
 ```
 
-This activates your Vex config live on the running (RAM-only) system. Reboot and it's gone, as if it never happened.
+This activates your Vex config live on the running (RAM-only) system. Use `test`, not `switch` — `switch` also installs the bootloader, which fails on the live ISO's read-only/non-existent EFI partition. `test` skips that step entirely. Reboot and it's gone, as if it never happened.
 
 Working example against this repo's playground (the `demo` host):
 
 ```bash
-sudo nixos-rebuild switch --flake github:CRBroughton/vex?dir=playground#demo
+sudo nixos-rebuild test --flake github:CRBroughton/vex?dir=playground#demo
 ```
 
 ### Option 2: Build your own bootable Vex ISO

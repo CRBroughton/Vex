@@ -2,13 +2,13 @@
 default:
     @just --list
 
-# Build the demo VM (via the playground, a real external consumer of vex)
+# Build the test VM (via the playground, a real external consumer of vex)
 build-vm:
-    cd playground && nix build '.#nixosConfigurations.demo.config.system.build.vm'
+    cd playground && nix build '.#nixosConfigurations.vm.config.system.build.vm'
 
-# Run the demo VM
+# Run the test VM
 run-vm:
-    cd playground && ./result/bin/run-demo-vm
+    cd playground && ./result/bin/run-vm-vm
 
 # Build and run the test VM
 vm:
