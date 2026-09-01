@@ -20,6 +20,8 @@ inputs.home-manager.lib.homeManagerConfiguration {
   };
   modules =
     (optionalImportTree ../../modules/home/core)
+    ++ (optionalImportTree ../../modules/home/desktop)
+    ++ (optionalImportTree ../../modules/home/ai)
     ++ [ (usersDir + "/${user}") ]
     ++ (optionalImportTree (usersDir + "/${user}/modules"))
     ++ [ { home.stateVersion = stateVersion; } ]

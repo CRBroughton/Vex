@@ -24,6 +24,8 @@ inputs.nixpkgs.lib.nixosSystem {
   inherit system;
   modules =
     (optionalImportTree ../../modules/system/core)
+    ++ (optionalImportTree ../../modules/system/services)
+    ++ (optionalImportTree ../../modules/system/desktop)
     ++ [ hostModule ]
     ++ userModules
     ++ [
@@ -39,13 +41,16 @@ inputs.nixpkgs.lib.nixosSystem {
           extraSpecialArgs = {
             inherit inputs;
           };
-          sharedModules = optionalImportTree ../../modules/home/core;
+          sharedModules =
+            (optionalImportTree ../../modules/home/core)
+            ++ (optionalImportTree ../../modules/home/desktop)
+            ++ (optionalImportTree ../../modules/home/ai);
           users = lib.genAttrs users (
-            u:
+            user:
             let
-              hostHome = hostsDir + "/${hostname}/users/${u}/home.nix";
+              hostHome = hostsDir + "/${hostname}/users/${user}/home.nix";
             in
-            if builtins.pathExists hostHome then import hostHome else import (usersDir + "/${u}")
+            if builtins.pathExists hostHome then import hostHome else import (usersDir + "/${user}")
           );
         };
       }

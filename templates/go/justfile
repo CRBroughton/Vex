@@ -1,0 +1,27 @@
+# List available commands
+default:
+    @just --list
+
+# Run in development mode
+dev:
+    go run .
+
+# Build for production
+build:
+    go build -o bin/app .
+
+# Run tests
+test:
+    go test ./...
+
+# Type/vet check
+check:
+    go vet ./...
+
+# Lint
+lint:
+    gofmt -l .
+
+# Fix lint errors
+lint-fix:
+    gofmt -l -w .
