@@ -24,7 +24,7 @@ in
     services.ollama = {
       enable = true;
       loadModels = [ cfg.model ];
-      port = cfg.port;
+      inherit (cfg) port;
     };
   };
 }
