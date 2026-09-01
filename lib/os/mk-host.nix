@@ -25,6 +25,7 @@ inputs.nixpkgs.lib.nixosSystem {
   modules =
     (optionalImportTree ../../modules/system/core)
     ++ (optionalImportTree ../../modules/system/services)
+    ++ (optionalImportTree ../../modules/system/desktop)
     ++ [ hostModule ]
     ++ userModules
     ++ [
@@ -40,7 +41,10 @@ inputs.nixpkgs.lib.nixosSystem {
           extraSpecialArgs = {
             inherit inputs;
           };
-          sharedModules = optionalImportTree ../../modules/home/core;
+          sharedModules =
+            (optionalImportTree ../../modules/home/core)
+            ++ (optionalImportTree ../../modules/home/desktop)
+            ++ (optionalImportTree ../../modules/home/ai);
           users = lib.genAttrs users (
             user:
             let

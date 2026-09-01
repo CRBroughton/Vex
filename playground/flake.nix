@@ -19,6 +19,13 @@
           users = [ "test" ];
           stateVersion = "25.05";
         };
+
+        iso = vex.osLib.mkHost {
+          inherit self;
+          hostname = "iso";
+          users = [ "test" ];
+          stateVersion = "25.05";
+        };
       };
 
       homeConfigurations = {

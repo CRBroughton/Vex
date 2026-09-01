@@ -20,6 +20,14 @@ vm-host host:
     cd playground && nix build ".#nixosConfigurations.{{host}}.config.system.build.vm"
     cd playground && ./result/bin/run-{{host}}-vm
 
+# Build a bootable Vex ISO (boots into the config directly, installs nothing)
+build-iso:
+    cd playground && nix build '.#nixosConfigurations.iso.config.system.build.isoImage'
+
+# Boot the built ISO in a local QEMU VM, to test it before flashing to USB
+run-iso:
+    qemu-system-x86_64 -m 4096 -enable-kvm -cdrom playground/result/iso/vex.iso
+
 # Check flake for errors
 check:
     nix flake check

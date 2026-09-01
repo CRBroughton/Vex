@@ -245,6 +245,39 @@ my-config/
 
 ---
 
+## Trying It Without Installing
+
+Want to see Vex running on real hardware (real GPU, real EGL — no VM software-rendering caveats) without touching your disk? Two options:
+
+### Option 1: Live-rebuild from the official NixOS minimal ISO
+
+Boot the [official NixOS minimal ISO](https://nixos.org/download) from USB. It runs entirely from RAM — nothing is written to disk unless you deliberately partition/install. Once you have network in the live session:
+
+```bash
+sudo nixos-rebuild switch --flake github:yourorg/your-config#my-machine
+```
+
+This activates your Vex config live on the running (RAM-only) system. Reboot and it's gone, as if it never happened.
+
+### Option 2: Build your own bootable Vex ISO
+
+This bakes your config directly into a bootable image, so it boots straight into it — no live-rebuild step needed. Still installs nothing; still boots from USB.
+
+```bash
+# Build the ISO (via the playground's `iso` host — see playground/hosts/iso/)
+just build-iso
+
+# Test it locally in QEMU before flashing to a USB stick
+just run-iso
+
+# Flash to USB (replace /dev/sdX with your actual device — this is destructive)
+sudo dd if=playground/result/iso/vex.iso of=/dev/sdX bs=4M status=progress conv=fsync
+```
+
+To build an ISO for your own config rather than the playground, add a host that imports `"${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"` (see `playground/hosts/iso/default.nix` for a working example) and build `.config.system.build.isoImage`.
+
+---
+
 ## Deploying a New Machine
 
 ### Local deploy (from the NixOS minimal ISO)
@@ -307,6 +340,9 @@ just test-home
 
 # Test VexOS build
 just test-os
+
+# Build a bootable ISO of the playground config
+just build-iso
 ```
 
 ---
