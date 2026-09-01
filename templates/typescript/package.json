@@ -1,0 +1,8 @@
+{
+  "name": "typescript-workspace",
+  "private": true,
+  "packageManager": "pnpm@11.18.0",
+  "devDependencies": {
+    "typescript": "catalog:"
+  }
+}

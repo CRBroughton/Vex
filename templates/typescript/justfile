@@ -20,8 +20,12 @@ test:
 
 # Type check
 check:
-    nr tsc --noEmit
+    pnpm exec tsc --noEmit
 
 # Lint
 lint:
-    nr eslint .
+    eslint .
+
+# Fix lint errors
+lint-fix:
+    eslint . --fix
