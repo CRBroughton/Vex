@@ -21,10 +21,12 @@
 
   languages.typescript.enable = true;
 
-  scripts.dev.exec = "nr dev";
-  scripts.build.exec = "nr build";
-  scripts.test.exec = "nr test";
-  scripts.check.exec = "pnpm exec tsc --noEmit";
+  scripts = {
+    dev.exec = "nr dev";
+    build.exec = "nr build";
+    test.exec = "nr test";
+    check.exec = "pnpm exec tsc --noEmit";
+  };
 
   enterShell = ''
     echo "TypeScript development environment ready"

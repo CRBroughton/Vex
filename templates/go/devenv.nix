@@ -7,10 +7,12 @@
 
   languages.go.enable = true;
 
-  scripts.dev.exec = "go run .";
-  scripts.build.exec = "go build -o bin/app .";
-  scripts.test.exec = "go test ./...";
-  scripts.check.exec = "go vet ./...";
+  scripts = {
+    dev.exec = "go run .";
+    build.exec = "go build -o bin/app .";
+    test.exec = "go test ./...";
+    check.exec = "go vet ./...";
+  };
 
   enterShell = ''
     echo "Go development environment ready"

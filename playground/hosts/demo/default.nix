@@ -10,8 +10,6 @@
 
   networking.hostName = "demo";
 
-  vex.desktop.niri.enable = true;
-
   # NixOS's qemu-vm module attaches no GPU device by default, so the guest
   # has no /dev/dri and wlroots has nothing to get a DRM/KMS or EGL context
   # from. Attach a GL-accelerated virtio-gpu device (virgl) so niri gets
@@ -25,12 +23,14 @@
     "-display sdl,gl=on"
   ];
 
-  vex.ai.enable = true;
-
-  vex.autoUpgrade = {
-    enable = true;
-    flake = "github:acmecorp/acme-vex";
-    allowReboot = false;
+  vex = {
+    desktop.niri.enable = true;
+    ai.enable = true;
+    autoUpgrade = {
+      enable = true;
+      flake = "github:acmecorp/acme-vex";
+      allowReboot = false;
+    };
   };
 
   virtualisation = {

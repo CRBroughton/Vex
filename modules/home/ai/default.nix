@@ -52,13 +52,17 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ pi-coding-agent ];
+    home = {
+      packages = [ pi-coding-agent ];
 
-    home.file.".pi/agent/settings.json".source = settingsJson;
-    home.file.".pi/agent/models.json".source = modelsJson;
+      file = {
+        ".pi/agent/settings.json".source = settingsJson;
+        ".pi/agent/models.json".source = modelsJson;
 
-    home.file.".pi/agent/skills/vex-explain-option/SKILL.md".source = ./skills/explain-option.md;
-    home.file.".pi/agent/skills/vex-list-modules/SKILL.md".source = ./skills/list-modules.md;
-    home.file.".pi/agent/skills/vex-debug-nix/SKILL.md".source = ./skills/debug-nix.md;
+        ".pi/agent/skills/vex-explain-option/SKILL.md".source = ./skills/explain-option.md;
+        ".pi/agent/skills/vex-list-modules/SKILL.md".source = ./skills/list-modules.md;
+        ".pi/agent/skills/vex-debug-nix/SKILL.md".source = ./skills/debug-nix.md;
+      };
+    };
   };
 }
