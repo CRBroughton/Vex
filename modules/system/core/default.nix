@@ -3,6 +3,7 @@
   imports = [
     ./nix.nix
     ./shell.nix
+    ./networking.nix
   ];
 
   nixpkgs.config.allowUnfree = true;
