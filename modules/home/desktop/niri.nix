@@ -52,6 +52,8 @@ in
       enable = true;
 
       settings = {
+        hotkey-overlay.skip-at-startup = { };
+
         layout = {
           gaps = 12;
 
