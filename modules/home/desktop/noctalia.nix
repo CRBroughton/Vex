@@ -20,7 +20,21 @@ in
       enable = true;
       systemd.enable = true;
 
-      settings.wallpaper.default.path = "${./niri-assets/wallpaper.jpg}";
+      settings = {
+        wallpaper.default.path = "${./niri-assets/wallpaper.jpg}";
+
+        plugins = {
+          enabled = [ "vex/cheatsheet" ];
+          source = [
+            {
+              name = "vex";
+              kind = "path";
+              location = "${./noctalia-plugins}";
+              enabled = true;
+            }
+          ];
+        };
+      };
     };
   };
 }

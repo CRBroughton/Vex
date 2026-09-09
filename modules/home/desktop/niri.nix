@@ -46,7 +46,6 @@ in
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
       foot
-      rofi
     ];
 
     wayland.windowManager.niri = {
@@ -91,12 +90,12 @@ in
             spawn = [ "foot" ];
           };
           "Mod+D" = {
-            _props.hotkey-overlay-title = "Open the App Launcher";
-            spawn = [
-              "rofi"
-              "-show"
-              "drun"
-            ];
+            _props.hotkey-overlay-title = "Open the App Launcher: noctalia";
+            spawn-sh = "noctalia msg panel-toggle launcher";
+          };
+          "Mod+Slash" = {
+            _props.hotkey-overlay-title = "Open the Cheatsheet";
+            spawn-sh = "noctalia msg panel-toggle vex/cheatsheet:panel";
           };
 
           # Focus
