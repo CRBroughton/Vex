@@ -7,7 +7,7 @@
   networking.hostName = "demo";
 
   vex = {
-    desktop.niri.enable = true;
+    desktop.enable = true;
     ai.enable = true;
     autoUpgrade = {
       enable = true;

@@ -16,11 +16,20 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    noctalia = {
+      url = "github:noctalia-dev/noctalia";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    nvf = {
+      url = "github:notashelf/nvf";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
     {
+      self,
       import-tree,
       flake-utils,
       ...
@@ -42,5 +51,18 @@
     )
     // {
       inherit lib osLib;
+
+      templates = {
+        typescript = {
+          path = ./templates/typescript;
+          description = "A devenv-based TypeScript project (pnpm workspace, catalog-pinned)";
+        };
+        go = {
+          path = ./templates/go;
+          description = "A devenv-based Go project";
+        };
+      };
+
+      templates.default = self.templates.typescript;
     };
 }
