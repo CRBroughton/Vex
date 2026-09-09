@@ -223,6 +223,119 @@ vex.git = {
 
 ---
 
+### Devenv (`vex.devenv`)
+
+Installs [devenv](https://devenv.sh) for declarative, per-project development environments — separate from your system-level Vex config, scoped to whatever repo you're in.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `vex.devenv.enable` | bool | `true` | Install devenv. |
+
+See [Templates](#templates) below for ready-made devenv projects.
+
+---
+
+### Neovim (`vex.neovim`)
+
+Neovim configured via [nvf](https://github.com/notashelf/nvf) — LSP, completion (nvim-cmp), fuzzy-find (telescope), file tree (neo-tree), statusline (lualine), and the gruvbox theme, with Nix language support (LSP + treesitter) on by default since you're likely editing a Vex-based config in it.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `vex.neovim.enable` | bool | `false` | Enable Neovim via nvf. |
+
+nvf exposes its full option surface as `programs.nvf.settings` — nothing is hidden. Extend it directly for more languages, plugins, or to override any default:
+
+```nix
+vex.neovim.enable = true;
+
+programs.nvf.settings.vim.languages = {
+  go.enable = true;
+  typescript.enable = true; # also covers JS, via ts_ls
+};
+```
+
+---
+
+### AI Assistant (`vex.ai`)
+
+A local AI coding assistant: [Pi](https://pi.dev) configured against a locally-running [Ollama](https://ollama.com) model. Split across both flavours — the system side runs the Ollama service, the home side installs and configures Pi.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `vex.ai.enable` | bool | `false` | Enable (system: Ollama service; home: Pi + skills). |
+| `vex.ai.model` | string | `"qwen2.5-coder:7b"` | Ollama model to load/use. Keep the system and home values in sync. |
+| `vex.ai.port` | port | `11434` | Port the local Ollama service listens on. |
+
+VexOS hosts need both halves enabled — Ollama on the system, Pi on the user:
+
+```nix
+# hosts/my-machine/default.nix
+vex.ai.enable = true;
+
+# users/craig/default.nix
+vex.ai.enable = true;
+```
+
+---
+
+### Desktop (`vex.desktop`) — VexOS only
+
+A niri-based desktop session: [niri](https://github.com/YaLTeR/niri) (scrollable-tiling Wayland compositor) plus [noctalia](https://github.com/noctalia-dev/noctalia) (bar, launcher, control center, lock screen, wallpaper theming). `vex.desktop.enable` turns both on together, at both the system and home level.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `vex.desktop.enable` | bool | `false` | Enable niri + noctalia together. |
+| `vex.desktop.niri.enable` | bool | `false` | Niri alone (compositor, keybinds, greetd/tuigreet login). |
+| `vex.desktop.noctalia.enable` | bool | `false` | Noctalia alone (bar, launcher, wallpaper, a built-in `Mod+Slash` keybind cheatsheet shipped as a noctalia plugin). |
+
+The individual toggles still exist if you want niri without noctalia (or vice versa), but the wallpaper and a couple of niri's own defaults (window rounding, focus-ring color auto-derived from the wallpaper) currently assume both are on together.
+
+```nix
+# hosts/my-machine/default.nix (system)
+vex.desktop.enable = true;
+
+# users/craig/default.nix (home)
+vex.desktop.enable = true;
+```
+
+---
+
+### Auto-Upgrade (`vex.autoUpgrade`) — VexOS only
+
+Scheduled, unattended `nixos-rebuild` upgrades from your own config repo.
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `vex.autoUpgrade.enable` | bool | `false` | Enable scheduled upgrades. |
+| `vex.autoUpgrade.flake` | string | — | Your config repo's flake URL (not Vex's). Required. |
+| `vex.autoUpgrade.schedule` | string | `"04:00"` | When to run, systemd calendar format. |
+| `vex.autoUpgrade.allowReboot` | bool | `false` | Reboot automatically after kernel updates. |
+| `vex.autoUpgrade.flags` | list | `[]` | Extra flags passed to `nixos-rebuild`. |
+| `vex.autoUpgrade.rebootWindow.lower` / `.upper` | string | `"03:00"` / `"05:00"` | Permitted reboot window, when `allowReboot` is set. |
+
+```nix
+vex.autoUpgrade = {
+  enable = true;
+  flake = "github:yourorg/your-config";
+  allowReboot = false;
+};
+```
+
+---
+
+## Templates
+
+Vex ships ready-made [devenv](https://devenv.sh)-based project templates, independent of the OS/home-manager side — use them for a project's dev environment regardless of whether that project has anything to do with Vex.
+
+```bash
+nix flake init -t github:CRBroughton/vex#typescript   # pnpm workspace, catalog-pinned
+nix flake init -t github:CRBroughton/vex#go
+```
+
+Both drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), `.envrc`, and `justfile` into the current directory. Enter the environment with `devenv shell` or `direnv allow`.
+
+---
+
 ## Repository Structure
 
 A typical Vex consumer repository looks like this:
