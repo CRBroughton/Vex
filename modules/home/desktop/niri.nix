@@ -7,6 +7,36 @@
 
 let
   cfg = config.vex.desktop.niri;
+  wallpaper = ./niri-assets/wallpaper.jpg;
+
+  # Always derived from the actual wallpaper file, not hardcoded — picks the
+  # lightest color in its (reduced) palette, so a wallpaper change on rebuild
+  # automatically re-derives the accent.
+  wallpaperAccentColor = lib.removeSuffix "\n" (
+    builtins.readFile (
+      pkgs.runCommand "wallpaper-accent-color"
+        {
+          nativeBuildInputs = [
+            pkgs.imagemagick
+            pkgs.gawk
+          ];
+        }
+        ''
+          magick ${wallpaper} -resize 256x256 -colors 16 -unique-colors txt:- | \
+            awk '
+              match($0, /#([0-9A-Fa-f]{6})/, m) {
+                hex = m[1];
+                r = strtonum("0x" substr(hex,1,2));
+                g = strtonum("0x" substr(hex,3,2));
+                b = strtonum("0x" substr(hex,5,2));
+                lum = 0.299*r + 0.587*g + 0.114*b;
+                if (lum > maxlum) { maxlum = lum; best = "#" hex; }
+              }
+              END { print best }
+            ' > $out
+        ''
+    )
+  );
 in
 {
   options.vex.desktop.niri = {
@@ -23,8 +53,33 @@ in
       enable = true;
 
       settings = {
-        layout.gaps = 8;
+        layout = {
+          gaps = 12;
+
+          focus-ring = {
+            width = 3;
+            active-color = wallpaperAccentColor;
+            inactive-color = "#3c3c3c";
+          };
+
+          shadow = {
+            on = { };
+            softness = 30;
+            spread = 5;
+            offset._props = {
+              x = 0;
+              y = 5;
+            };
+            color = "#0000007f";
+          };
+        };
+
         prefer-no-csd = { };
+
+        window-rule = {
+          geometry-corner-radius._args = [ 10 ];
+          clip-to-geometry = true;
+        };
 
         binds = {
           "Mod+Return" = {
