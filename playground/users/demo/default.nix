@@ -8,7 +8,7 @@ _: {
   vex = {
     shell.enable = true;
     devenv.enable = true;
-    desktop.niri.enable = true;
+    desktop.enable = true;
     ai.enable = true;
     git = {
       userName = "Test User";

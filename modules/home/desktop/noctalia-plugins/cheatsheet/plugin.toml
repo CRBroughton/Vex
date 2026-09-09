@@ -1,0 +1,22 @@
+# Vex's keybind cheatsheet — a noctalia panel plugin, shipped declaratively as
+# a Nix-managed `path` plugin source (see modules/home/desktop/noctalia.nix).
+# Open with: noctalia msg panel-toggle vex/cheatsheet:panel (bound to Mod+Slash
+# in niri.nix).
+
+id          = "vex/cheatsheet"
+name        = "Vex Cheatsheet"
+version     = "1.0.0"
+plugin_api  = 9
+author      = "vex"
+license     = "MIT"
+icon        = "keyboard"
+description = "A keybind reference for the Vex niri desktop session."
+tags        = ["help", "keybinds"]
+
+[[panel]]
+id        = "panel"
+entry     = "panel.luau"
+width     = 640
+height    = 620
+placement = "floating"
+position  = "center"
