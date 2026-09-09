@@ -332,7 +332,14 @@ nix flake init -t github:CRBroughton/vex#typescript   # pnpm workspace, catalog-
 nix flake init -t github:CRBroughton/vex#go
 ```
 
-Both drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), `.envrc`, and `justfile` into the current directory. Enter the environment with `devenv shell` or `direnv allow`.
+Both drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), and `justfile` into the current directory.
+
+Enter the environment with `devenv shell`, or set up auto-activation once per project — `vex.shell` is Fish, which loads devenv's hook automatically (it ships with the Nix-installed package, no extra tooling):
+
+```bash
+devenv allow   # trust the project once
+cd .           # auto-activates from here on
+```
 
 ---
 
