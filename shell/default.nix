@@ -42,6 +42,15 @@ let
     starship init fish | source
     zoxide init fish | source
 
+    # devenv's own auto-activation hook (`devenv hook fish`) used to be wired
+    # via home-manager's `programs.fish.interactiveShellInit`, but vex.shell
+    # no longer enables that module — it installs this wrapped binary
+    # instead — so that hook never fired. Guarded on devenv actually being
+    # on PATH since vex.devenv can be disabled independently of vex.shell.
+    if command -q devenv
+      devenv hook fish | source
+    end
+
     if status is-interactive
       and not set -q ZELLIJ
       # `zellij attach -c` with no name always attaches the most recent
