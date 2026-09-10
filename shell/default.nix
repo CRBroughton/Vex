@@ -20,7 +20,7 @@
 }:
 
 let
-  lib = pkgs.lib;
+  inherit (pkgs) lib;
   wlib = wrappersLib;
 
   fishInit = pkgs.writeText "vex-fish-init.fish" ''

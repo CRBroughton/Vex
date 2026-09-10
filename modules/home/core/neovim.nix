@@ -20,31 +20,33 @@ in
       enable = true;
 
       settings = {
-        vim.viAlias = false;
-        vim.vimAlias = true;
+        vim = {
+          viAlias = false;
+          vimAlias = true;
 
-        vim.theme = {
-          enable = true;
-          name = "gruvbox";
-          style = "dark";
+          theme = {
+            enable = true;
+            name = "gruvbox";
+            style = "dark";
+          };
+
+          statusline.lualine.enable = true;
+          telescope.enable = true;
+          filetree.neo-tree.enable = true;
+
+          autocomplete.nvim-cmp.enable = true;
+
+          lsp = {
+            enable = true;
+            formatOnSave = true;
+            lspkind.enable = true;
+            lightbulb.enable = true;
+          };
+
+          # Nix support is on unconditionally since this is, itself, a Nix
+          # project — extend vim.languages.* for anything else you need.
+          languages.nix.enable = true;
         };
-
-        vim.statusline.lualine.enable = true;
-        vim.telescope.enable = true;
-        vim.filetree.neo-tree.enable = true;
-
-        vim.autocomplete.nvim-cmp.enable = true;
-
-        vim.lsp = {
-          enable = true;
-          formatOnSave = true;
-          lspkind.enable = true;
-          lightbulb.enable = true;
-        };
-
-        # Nix support is on unconditionally since this is, itself, a Nix
-        # project — extend vim.languages.* for anything else you need.
-        vim.languages.nix.enable = true;
       };
     };
   };
