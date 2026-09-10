@@ -24,6 +24,11 @@
       url = "github:notashelf/nvf";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    wrappers = {
+      url = "github:Lassulus/wrappers";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     flake-utils.url = "github:numtide/flake-utils";
   };
 
@@ -47,6 +52,7 @@
       in
       {
         packages.default = pkgs.callPackage ./cli { inherit pkgs; };
+        packages.shell = (pkgs.callPackage ./shell { wrappersLib = inputs.wrappers.lib; }).vexFish;
       }
     )
     // {

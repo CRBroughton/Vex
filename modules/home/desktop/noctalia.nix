@@ -21,7 +21,7 @@ in
       systemd.enable = true;
 
       settings = {
-        wallpaper.default.path = "${./niri-assets/wallpaper.jpg}";
+        wallpaper.default.path = "${config.vex.desktop.wallpaper}";
 
         plugins = {
           enabled = [ "vex/cheatsheet" ];

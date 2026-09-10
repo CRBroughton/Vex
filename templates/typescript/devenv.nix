@@ -33,7 +33,11 @@
     echo "Node $(node --version) | pnpm $(pnpm --version)"
   '';
 
-  pre-commit.hooks = {
+  # VEX:PRECOMMIT-START
+  git-hooks.hooks = {
     eslint.enable = true;
   };
+  # VEX:PRECOMMIT-END
+
+  # VEX:EXTRA-SERVICES
 }

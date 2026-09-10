@@ -2,12 +2,25 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 
 let
   cfg = config.vex.desktop.niri;
-  wallpaper = ./niri-assets/wallpaper.jpg;
+  wallpaper = config.vex.desktop.wallpaper;
+
+  # ghostty's default `command` is the user's login shell, which is not the
+  # wrapped vex fish binary (that's just a package, never registered as a
+  # login shell) — point it there explicitly so zellij auto-attach fires.
+  # Built from the same vex.shell options as the shell module itself, so
+  # ghostty's terminal matches whatever the user configured there.
+  vexShell = pkgs.callPackage ../../../shell {
+    wrappersLib = inputs.wrappers.lib;
+    inherit (config.vex.shell) greeting extraPackages;
+    zellijThemeName = config.vex.shell.zellij.theme.name;
+    zellijThemeColors = config.vex.shell.zellij.theme.colors;
+  };
 
   # Always derived from the actual wallpaper file, not hardcoded — picks the
   # lightest color in its (reduced) palette, so a wallpaper change on rebuild
@@ -41,12 +54,47 @@ in
 {
   options.vex.desktop.niri = {
     enable = lib.mkEnableOption "the Niri desktop session (keybinds, autostart, userland tools)";
+
+    terminal = {
+      fontFamily = lib.mkOption {
+        type = lib.types.str;
+        default = "JetBrainsMono Nerd Font";
+        description = "Font family used by the ghostty terminal.";
+      };
+
+      fontSize = lib.mkOption {
+        type = lib.types.int;
+        default = 14;
+        description = "Font size used by the ghostty terminal.";
+      };
+
+      theme = lib.mkOption {
+        type = lib.types.str;
+        default = "light:Gruvbox Light,dark:Gruvbox Dark";
+        description = "Ghostty `theme` value, e.g. a single theme name or `light:<name>,dark:<name>`.";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      foot
+      nerd-fonts.jetbrains-mono
     ];
+
+    fonts.fontconfig.enable = true;
+
+    programs.ghostty = {
+      enable = true;
+      settings = {
+        # Ligatures need no explicit config — ghostty applies a font's own
+        # calt/liga OpenType features by default, and JetBrains Mono Nerd
+        # Font ships them.
+        font-family = cfg.terminal.fontFamily;
+        font-size = cfg.terminal.fontSize;
+        theme = cfg.terminal.theme;
+        command = "${vexShell.vexFish}/bin/fish";
+      };
+    };
 
     wayland.windowManager.niri = {
       enable = true;
@@ -85,11 +133,11 @@ in
         binds = {
           "Mod+Return" = {
             _props.hotkey-overlay-title = "Open a Terminal";
-            spawn = [ "foot" ];
+            spawn = [ "ghostty" ];
           };
           "Mod+T" = {
             _props.hotkey-overlay-title = "Open a Terminal";
-            spawn = [ "foot" ];
+            spawn = [ "ghostty" ];
           };
           "Mod+D" = {
             _props.hotkey-overlay-title = "Open the App Launcher: noctalia";

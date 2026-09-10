@@ -237,7 +237,8 @@
         "import-tree": "import-tree",
         "nixpkgs": "nixpkgs",
         "noctalia": "noctalia",
-        "nvf": "nvf"
+        "nvf": "nvf",
+        "wrappers": "wrappers"
       }
     },
     "systems": {
@@ -267,6 +268,26 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "wrappers": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788889659,
+        "narHash": "sha256-9yRvFaSIgYu85ZfNN55vHV2LQj06WbRqsRcppXkaWBI=",
+        "owner": "Lassulus",
+        "repo": "wrappers",
+        "rev": "7687cc2ffa72806ab595cb3e0f45b3cdcb44269e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "Lassulus",
+        "repo": "wrappers",
         "type": "github"
       }
     }

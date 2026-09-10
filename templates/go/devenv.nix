@@ -19,8 +19,12 @@
     echo "Go $(go version)"
   '';
 
-  pre-commit.hooks = {
+  # VEX:PRECOMMIT-START
+  git-hooks.hooks = {
     gofmt.enable = true;
     govet.enable = true;
   };
+  # VEX:PRECOMMIT-END
+
+  # VEX:EXTRA-SERVICES
 }

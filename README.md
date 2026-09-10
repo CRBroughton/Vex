@@ -334,6 +334,17 @@ nix flake init -t github:CRBroughton/vex#go
 
 Both drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), and `justfile` into the current directory.
 
+### Interactive setup (`vex new`)
+
+The `vex` CLI wraps the same templates with a few interactive prompts — enabling optional `devenv.nix` services (Postgres, Redis) and toggling pre-commit hooks, based on what the project actually needs:
+
+```bash
+nix run github:CRBroughton/vex -- new typescript ./my-project
+nix run github:CRBroughton/vex -- new go ./my-project
+```
+
+Templates are baked into the `vex` package at build time, so `vex new` works fully offline — no network fetch, no flake registry resolution at runtime.
+
 Enter the environment with `devenv shell`, or set up auto-activation once per project — `vex.shell` is Fish, which loads devenv's hook automatically (it ships with the Nix-installed package, no extra tooling):
 
 ```bash
