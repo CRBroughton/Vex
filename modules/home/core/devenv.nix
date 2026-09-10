@@ -21,5 +21,9 @@ in
     home.packages = with pkgs; [
       devenv
     ];
+
+    programs.fish.interactiveShellInit = lib.mkIf config.programs.fish.enable ''
+      devenv hook fish | source
+    '';
   };
 }
