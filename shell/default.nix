@@ -40,12 +40,6 @@ let
     alias cat bat
     alias ls eza
 
-    function just
-      if test -f justfile; or test -f .justfile; or test -f Justfile
-        command just $argv
-      end
-    end
-
     starship init fish | source
     zoxide init fish | source
 
