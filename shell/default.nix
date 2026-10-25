@@ -24,6 +24,13 @@ let
   wlib = wrappersLib;
 
   fishInit = pkgs.writeText "vex-fish-init.fish" ''
+    # wrapPackage sets PATH to just this file's runtimeInputs, so anything
+    # installed via home.packages (devenv, nvf's neovim, a consumer's own
+    # packages) is otherwise unreachable from inside this shell. Covers
+    # standalone home-manager (Vex, all platforms) and NixOS's per-user
+    # profile (VexOS) — fish silently skips PATH entries that don't exist.
+    set -gx PATH $HOME/.nix-profile/bin /etc/profiles/per-user/$USER/bin $PATH
+
     set -gx PNPM_HOME "$HOME/.local/share/pnpm"
     set -gx PATH "$PNPM_HOME" $PATH
 
