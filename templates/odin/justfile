@@ -1,0 +1,31 @@
+# List available commands
+default:
+    @just --list
+
+LINKER_FLAGS := "-lGL -lm -lpthread -ldl -lrt -lX11"
+
+# Run in development mode
+dev:
+    odin run src/ -extra-linker-flags:"{{LINKER_FLAGS}}"
+
+# Build debug binary
+build:
+    mkdir -p bin
+    odin build src/ -out:bin/app -extra-linker-flags:"{{LINKER_FLAGS}}"
+
+# Build optimised release binary
+release:
+    mkdir -p bin
+    odin build src/ -out:bin/app -o:speed -extra-linker-flags:"{{LINKER_FLAGS}}"
+
+# Run tests
+test:
+    odin test src/ -extra-linker-flags:"{{LINKER_FLAGS}}"
+
+# Type/vet check
+check:
+    odin check src/
+
+# Clean build artifacts
+clean:
+    rm -rf bin

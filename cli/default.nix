@@ -4,6 +4,7 @@ let
   templates = {
     typescript = ../templates/typescript;
     go = ../templates/go;
+    odin = ../templates/odin;
   };
 
   # `${templates.typescript}` etc. bake the real store paths in at build

@@ -330,9 +330,10 @@ Vex ships ready-made [devenv](https://devenv.sh)-based project templates, indepe
 ```bash
 nix flake init -t github:CRBroughton/vex#typescript   # pnpm workspace, catalog-pinned
 nix flake init -t github:CRBroughton/vex#go
+nix flake init -t github:CRBroughton/vex#odin          # raylib bunnymark demo
 ```
 
-Both drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), and `justfile` into the current directory.
+All drop a `devenv.nix`, `devenv.yaml`, `devenv.lock` (locked, so builds are reproducible out of the box), and `justfile` into the current directory.
 
 ### Interactive setup (`vex new`)
 
@@ -341,6 +342,7 @@ The `vex` CLI wraps the same templates with a few interactive prompts — enabli
 ```bash
 nix run github:CRBroughton/vex -- new typescript ./my-project
 nix run github:CRBroughton/vex -- new go ./my-project
+nix run github:CRBroughton/vex -- new odin ./my-project
 ```
 
 Templates are baked into the `vex` package at build time, so `vex new` works fully offline — no network fetch, no flake registry resolution at runtime.

@@ -67,6 +67,10 @@
           path = ./templates/go;
           description = "A devenv-based Go project";
         };
+        odin = {
+          path = ./templates/odin;
+          description = "A devenv-based Odin project (raylib bunnymark demo)";
+        };
       };
 
       templates.default = self.templates.typescript;
