@@ -3,6 +3,7 @@
   wrappersLib,
   greeting ? "vex — Mod+/ for the cheatsheet (shortcuts, common commands)",
   extraPackages ? [ ],
+  extraInit ? "",
   zellijThemeName ? "vitesse-dark",
   zellijThemeColors ? {
     fg = "#dbd7ca";
@@ -63,6 +64,8 @@ let
     if command -q devenv
       devenv hook fish | source
     end
+
+    ${extraInit}
 
     if status is-interactive
       and not set -q ZELLIJ

@@ -10,7 +10,7 @@ let
   cfg = config.vex.shell;
   vexShell = pkgs.callPackage ../../../shell {
     wrappersLib = inputs.wrappers.lib;
-    inherit (cfg) greeting extraPackages;
+    inherit (cfg) greeting extraPackages extraInit;
     zellijThemeName = cfg.zellij.theme.name;
     zellijThemeColors = cfg.zellij.theme.colors;
   };
@@ -33,6 +33,12 @@ in
       type = lib.types.listOf lib.types.package;
       default = [ ];
       description = "Extra packages made available on PATH inside the wrapped Vex fish shell.";
+    };
+
+    extraInit = lib.mkOption {
+      type = lib.types.lines;
+      default = "";
+      description = "Extra fish script appended into the wrapped Vex shell's init (after direnv/devenv hooks, before zellij auto-attach) — for env vars, aliases, or anything else home-manager's own programs.fish would normally carry, which this wrapped binary doesn't read.";
     };
 
     zellij.theme = {
