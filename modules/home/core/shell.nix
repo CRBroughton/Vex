@@ -67,5 +67,10 @@ in
       vexShell.vexFish
       vexShell.vexZellij
     ];
+
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
   };
 }

@@ -39,12 +39,21 @@ let
 
     set -g fish_greeting "${greeting}"
 
-    alias cd z
     alias cat bat
     alias ls eza
 
     starship init fish | source
-    zoxide init fish | source
+    # zoxide's own docs warn against `alias cd z` + plain `zoxide init fish`
+    # — it self-detects the recursion and errors ("Avoid aliasing `cd` to
+    # `z` directly"). --cmd=cd makes zoxide generate `cd` itself instead,
+    # safely, with no separate alias layer needed.
+    zoxide init --cmd=cd fish | source
+
+    # direnv is always on commonRuntimeInputs below, but just being on PATH
+    # doesn't auto-load .envrc on cd — needs the hook wired explicitly,
+    # same reason as the devenv hook just below: vex.shell doesn't enable
+    # home-manager's own programs.fish, so neither hook fires on its own.
+    direnv hook fish | source
 
     # devenv's own auto-activation hook (`devenv hook fish`) used to be wired
     # via home-manager's `programs.fish.interactiveShellInit`, but vex.shell
