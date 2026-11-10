@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.vex.git;
@@ -49,6 +54,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    home.packages = with pkgs; [
+      lazygit
+      gh
+    ];
+
     programs.git = {
       enable = true;
       inherit (cfg) ignores;
