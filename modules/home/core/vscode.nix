@@ -71,7 +71,16 @@ in
       profiles.default = {
         # Nix language support, since you're likely editing a Vex-based
         # config in it — same rationale as vex.neovim's default languages.
-        extensions = (with pkgs.vscode-marketplace; [ jnoortheen.nix-ide ]) ++ cfg.extensions;
+        # nix-vscode-extensions dropped x86_64-darwin (same nixpkgs platform
+        # cut as everything else) — pkgs.vscode-marketplace throws merely
+        # by being accessed there, so this (and cfg.extensions, left to the
+        # consumer to guard similarly) only applies elsewhere.
+        extensions =
+          lib.optionals (pkgs.stdenv.hostPlatform.system != "x86_64-darwin") (
+            with pkgs.vscode-marketplace;
+            [ jnoortheen.nix-ide ]
+          )
+          ++ cfg.extensions;
 
         userSettings = {
           "nix.enableLanguageServer" = true;
