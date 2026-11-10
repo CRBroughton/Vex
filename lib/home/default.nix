@@ -6,4 +6,5 @@
 }:
 {
   mkUser = import ./mk-user.nix { inherit inputs import-tree optionalImportTree; };
+  darwinApps = import ./darwin-apps.nix;
 }

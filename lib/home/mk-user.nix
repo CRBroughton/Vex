@@ -17,6 +17,7 @@ inputs.home-manager.lib.homeManagerConfiguration {
   pkgs = import inputs.nixpkgs {
     inherit system;
     config.allowUnfree = true;
+    overlays = [ inputs.nix-vscode-extensions.overlays.default ];
   };
   modules =
     (optionalImportTree ../../modules/home/core)
