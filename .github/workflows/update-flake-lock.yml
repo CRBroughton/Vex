@@ -1,0 +1,16 @@
+name: update flake lock
+
+on:
+  schedule:
+    - cron: "0 7 * * 1" # weekly, Monday 7am UTC
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - uses: DeterminateSystems/update-flake-lock@main
+        with:
+          pr-title: "chore: :arrow_up: update flake lock"
