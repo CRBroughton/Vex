@@ -6,5 +6,7 @@
 # unless it's symlinked into ~/Applications.
 apps:
 lib.listToAttrs (
-  map (a: lib.nameValuePair "Applications/${a.name}" { source = "${a.package}/Applications/${a.name}"; }) apps
+  map (
+    a: lib.nameValuePair "Applications/${a.name}" { source = "${a.package}/Applications/${a.name}"; }
+  ) apps
 )

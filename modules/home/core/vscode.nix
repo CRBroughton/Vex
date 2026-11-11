@@ -20,10 +20,9 @@ let
   # variable never changed), so only patch there.
   defaultPackage =
     if pkgs.stdenv.hostPlatform.isDarwin then
-      pkgs.vscode.overrideAttrs (
-        old:
-        {
-          postPatch = builtins.replaceStrings
+      pkgs.vscode.overrideAttrs (old: {
+        postPatch =
+          builtins.replaceStrings
             [ "Contents/Resources/app/node_modules/@vscode/ripgrep/bin/rg" ]
             [
               "Contents/Resources/app/node_modules.asar.unpacked/@vscode/ripgrep-universal/bin/${
@@ -35,8 +34,7 @@ let
               }/rg"
             ]
             old.postPatch;
-        }
-      )
+      })
     else
       pkgs.vscode;
 in
@@ -66,7 +64,7 @@ in
   config = lib.mkIf cfg.enable {
     programs.vscode = {
       enable = true;
-      package = cfg.package;
+      inherit (cfg) package;
 
       profiles.default = {
         # Nix language support, since you're likely editing a Vex-based
@@ -77,25 +75,23 @@ in
         # consumer to guard similarly) only applies elsewhere.
         extensions =
           lib.optionals (pkgs.stdenv.hostPlatform.system != "x86_64-darwin") (
-            with pkgs.vscode-marketplace;
-            [ jnoortheen.nix-ide ]
+            with pkgs.vscode-marketplace; [ jnoortheen.nix-ide ]
           )
           ++ cfg.extensions;
 
         userSettings = {
           "nix.enableLanguageServer" = true;
           "nix.serverPath" = "nixd";
-        } // cfg.userSettings;
+        }
+        // cfg.userSettings;
       };
     };
 
-    home.file = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (
-      darwinApps [
-        {
-          package = cfg.package;
-          name = "Visual Studio Code.app";
-        }
-      ]
-    );
+    home.file = lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin (darwinApps [
+      {
+        inherit (cfg) package;
+        name = "Visual Studio Code.app";
+      }
+    ]);
   };
 }
