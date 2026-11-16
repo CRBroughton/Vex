@@ -32,3 +32,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: cachix/install-nix-action@v31
       - run: nix run nixpkgs#just -- test-os
+
+  # Proves Vex (mkUser / home-manager) evaluates and builds on macOS
+  test-home-darwin:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+      - run: nix run nixpkgs#just -- test-home-darwin

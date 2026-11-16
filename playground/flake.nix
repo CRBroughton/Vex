@@ -41,6 +41,13 @@
           user = "demo";
           stateVersion = "25.05";
         };
+
+        "demo-darwin" = vex.lib.mkUser {
+          inherit self;
+          user = "demo-darwin";
+          system = "aarch64-darwin";
+          stateVersion = "25.05";
+        };
       };
     };
 }
