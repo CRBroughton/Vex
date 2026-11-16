@@ -48,6 +48,10 @@ check:
 test-home:
     cd playground && nix build '.#homeConfigurations.demo.activationPackage'
 
+# Build the Vex Home activation package for macOS (proves mkUser evaluates/builds on Darwin)
+test-home-darwin:
+    cd playground && nix build '.#homeConfigurations.demo-darwin.activationPackage'
+
 # Build the VexOS system, evaluation only (proves mkHost evaluates)
 test-os:
     cd playground && nix build '.#nixosConfigurations.demo.config.system.build.toplevel' --dry-run
@@ -84,6 +88,7 @@ ci:
     just check
     just test-home
     just test-os
+    just test-home-darwin
 
 # Run all checks without modifying files (use in CI pipelines)
 ci-check:
@@ -93,6 +98,7 @@ ci-check:
     just check
     just test-home
     just test-os
+    just test-home-darwin
 
 # Update flake inputs
 update:
