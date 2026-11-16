@@ -31,9 +31,10 @@ let
     # nix command itself, normally put on PATH by /etc/zshrc or /etc/bashrc,
     # neither of which this standalone wrapped binary sources. Covers
     # standalone home-manager (Vex, all platforms), NixOS's per-user profile
-    # (VexOS), and the multi-user Nix install's own bin dir — fish silently
-    # skips PATH entries that don't exist.
-    set -gx PATH $HOME/.nix-profile/bin /etc/profiles/per-user/$USER/bin /nix/var/nix/profiles/default/bin $PATH
+    # (VexOS), the multi-user Nix install's own bin dir, and the common
+    # user-local bin dir (native installers like Claude Code's land here)
+    # — fish silently skips PATH entries that don't exist.
+    set -gx PATH $HOME/.nix-profile/bin /etc/profiles/per-user/$USER/bin /nix/var/nix/profiles/default/bin $HOME/.local/bin $PATH
 
     set -gx PNPM_HOME "$HOME/.local/share/pnpm"
     set -gx PATH "$PNPM_HOME" $PATH
